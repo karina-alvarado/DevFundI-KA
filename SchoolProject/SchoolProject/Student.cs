@@ -6,6 +6,7 @@
         public string Major { get; set; }
         public double GPA { get; set; }
         public int CreditsEarned { get; set; }
+        public School School { get; set; }
 
         public Student() { }
 
@@ -19,3 +20,4 @@
         }
     }   
 }
+

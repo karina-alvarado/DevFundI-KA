@@ -3,7 +3,7 @@ using SchoolProject;
 
 public class Program
 {
-    private static School school = new School();
+    private static SchoolManagement Management = new SchoolManagement();
 
     public static void Main(string[] args)
     {
@@ -23,7 +23,7 @@ public class Program
             switch (option)
             {
                 case "1":
-                    school.ManageStudents();
+                    Management.ManageStudents();
                     break;
                 default:
                     Console.WriteLine("Invalid option. Please try again.");
