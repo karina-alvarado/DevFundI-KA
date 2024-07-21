@@ -102,7 +102,7 @@
 
             Console.WriteLine(student);
         }
-        private void ManageTeacher()
+        public void ManageTeacher()
         {
             Console.WriteLine("1. Add Teacher");
             Console.WriteLine("2. View Teacher Information");
@@ -173,5 +173,76 @@
 
             Console.WriteLine(teacher);
         }
+        public void ManageCourse()
+        {
+            Console.WriteLine("1. Create Course");
+            Console.WriteLine("2. Enroll Student in Course");
+            Console.WriteLine("3. Assign Teacher to Course");
+            Console.WriteLine("4. View Course Information");
+            Console.Write("Select an option: ");
+            string option = Console.ReadLine();
+
+            switch (option)
+            {
+                case "1":
+                    CreateCourse();
+                    break;
+                case "2":
+                    EnrollStudentInCourse();
+                    break;
+                case "3":
+                    AssignTeacherToCourse();
+                    break;
+                case "4":
+                    ViewCourseInformation();
+                    break;
+                default:
+                    Console.WriteLine("Invalid option. Please try again.");
+                    break;
+            }
+        }
+        private void ViewCourseInformation()
+        {
+            throw new NotImplementedException();
+        }
+
+        private void AssignTeacherToCourse()
+        {
+            throw new NotImplementedException();
+        }
+
+        private void EnrollStudentInCourse()
+        {
+            throw new NotImplementedException();
+        }
+
+        private void CreateCourse()
+        {
+            Console.Write("Course Name: ");
+            string courseName = Console.ReadLine();
+            Console.Write("Credits: ");
+            int credits = int.Parse(Console.ReadLine());
+            Console.Write("Schedule: ");
+            string schedule = Console.ReadLine();
+            Console.Write("Description: ");
+            string description = Console.ReadLine();
+            Console.Write("Approval Score: ");
+            decimal approvalScore = decimal.Parse(Console.ReadLine());
+            Console.Write("Minimum GPA: ");
+            double minGPA = double.Parse(Console.ReadLine());
+            Course course = new Course
+            {
+                CourseId = Guid.NewGuid(),
+                CourseName = courseName,
+                Credits = credits,
+                Schedule = schedule,
+                Description = description,
+                ApprovalScore = approvalScore,
+                MinGPA = minGPA
+            };
+
+            School.AddCourse(course);
+            Console.WriteLine("Course created successfully.");
+        }
     }
-}
+ }

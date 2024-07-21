@@ -42,5 +42,21 @@
 
             return teacher;
         }
+        public void AddCourse(Course c)
+        {
+            Courses.Add(c);
+        }
+
+        public Course FindCourse(Guid courseId)
+        {
+            Course course = Courses.Find(c => c.CourseId == courseId);
+
+            if (course == null)
+            {
+                Console.WriteLine("Teacher not found.");
+            }
+
+            return course;
+        }
     }
 }

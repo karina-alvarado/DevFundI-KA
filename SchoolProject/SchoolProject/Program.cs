@@ -25,6 +25,12 @@ public class Program
                 case "1":
                     Management.ManageStudents();
                     break;
+                case "2":
+                    Management.ManageTeacher();
+                    break;
+                case "3":
+                    Management.ManageCourse();
+                    break;
                 default:
                     Console.WriteLine("Invalid option. Please try again.");
                     break;
