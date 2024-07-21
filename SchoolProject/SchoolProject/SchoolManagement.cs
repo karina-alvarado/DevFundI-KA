@@ -102,5 +102,76 @@
 
             Console.WriteLine(student);
         }
+        private void ManageTeacher()
+        {
+            Console.WriteLine("1. Add Teacher");
+            Console.WriteLine("2. View Teacher Information");
+            Console.Write("Select an option: ");
+            string option = Console.ReadLine();
+
+            switch (option)
+            {
+                case "1":
+                    AddTeacher();
+                    break;
+                case "2":
+                    ViewTeacherInformation();
+                    break;
+                default:
+                    Console.WriteLine("Invalid option. Please try again.");
+                    break;
+            }
+        }
+        private void AddTeacher()
+        {
+            Console.Write("First Name: ");
+            string firstName = Console.ReadLine();
+            Console.Write("Last Name: ");
+            string lastName = Console.ReadLine();
+            Console.Write("Date of Birth (yyyy-mm-dd): ");
+            DateTime dob = DateTime.Parse(Console.ReadLine());
+            Console.Write("Address: ");
+            string address = Console.ReadLine();
+            Console.Write("Phone Number: ");
+            string phoneNumber = Console.ReadLine();
+            Console.Write("Hire Date (yyyy-mm-dd): ");
+            DateTime hireDate = DateTime.Parse(Console.ReadLine());
+            Console.Write("Department: ");
+            string department = Console.ReadLine();
+            Console.Write("Specialization: ");
+            string specialization = Console.ReadLine();
+            Console.Write("Salary: ");
+            decimal salary = decimal.Parse(Console.ReadLine());
+
+            Teacher teacher = new Teacher
+            {
+                FirstName = firstName,
+                LastName = lastName,
+                DateOfBirth = dob,
+                Address = address,
+                PhoneNumber = phoneNumber,
+                HireDate = hireDate,
+                Department = department,
+                Specialization = specialization,
+                Salary = salary
+            };
+
+            School.AddTeacher(teacher);
+            Console.WriteLine("Teacher added successfully.");
+        }
+        private void ViewTeacherInformation()
+        {
+            Console.Write("Teacher ID: ");
+            int teacherId = int.Parse(Console.ReadLine());
+            Teacher teacher = School.FindTeacher(teacherId);
+
+            if (teacher == null)
+            {
+                Console.WriteLine("Teacher not found.");
+                return;
+            }
+
+            Console.WriteLine(teacher);
+        }
     }
 }

@@ -25,5 +25,22 @@
 
             return student;
         }
+        public void AddTeacher(Teacher t)
+        {
+            t.Id = Teachers.Count + 1;
+            Teachers.Add(t);
+        }
+
+        public Teacher FindTeacher(int teacherId)
+        {
+            Teacher teacher = Teachers.Find(t => t.Id == teacherId);
+
+            if (teacher == null)
+            {
+                Console.WriteLine("Teacher not found.");
+            }
+
+            return teacher;
+        }
     }
 }
