@@ -25,6 +25,7 @@ namespace SchoolProject
             {
                 Students.Add(s);
                 s.CreditsEarned -= Credits;
+                Console.WriteLine($"Student {s.FirstName} {s.LastName} enrolled to course {CourseName} successfully.");
             }
             else
             {

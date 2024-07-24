@@ -16,12 +16,12 @@ namespace SchoolProject
             Course course1 = new Course
             {
                 CourseId = new Guid("39836a54-09ac-438f-bdd3-3e5cb0f207eb"),
-                CourseName = "Dev Foundamentals",
-                Credits = 3,
+                CourseName = "Dev Fundamentals",
+                Credits = 8,
                 Schedule = "MTW 10-11:30AM",
                 Description = "Introduction to OOP.",
                 Status = "Open",
-                ApprovalScore = 90.5m,
+                ApprovalScore = 70.5m,
                 MinGPA = 2.7,
             };
 
@@ -38,6 +38,7 @@ namespace SchoolProject
                 EnrollmentDate = new DateTime(2022, 9, 1),
                 Major = "Computer Science",
                 GPA = 3.85,
+                CreditsEarned = 50,
                 School = school
             };
 
@@ -65,7 +66,7 @@ namespace SchoolProject
                 GradeId = new Guid("ed37d761-9cce-4b2c-9643-f7babac90a97"),
                 Student = student1,
                 Course = course1,
-                Score = 65
+                Score = 75
             };
             student1.Grade = grade1;
 

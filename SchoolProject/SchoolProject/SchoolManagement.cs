@@ -283,7 +283,6 @@
                         if (course != null)
                         {
                             course.EnrollStudent(student);
-                            Console.WriteLine($"Student {student.FirstName} {student.LastName} enrolled to course {course.CourseName} successfully.");
                         }
                         else
                         {
