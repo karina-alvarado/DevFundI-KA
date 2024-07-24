@@ -21,9 +21,10 @@ namespace SchoolProject
 
         public void EnrollStudent(Student s)
         {
-            if (s.GPA >= MinGPA)
+            if (s.GPA >= MinGPA && s.CreditsEarned >= Credits)
             {
                 Students.Add(s);
+                s.CreditsEarned -= Credits;
             }
             else
             {

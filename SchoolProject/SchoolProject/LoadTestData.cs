@@ -1,7 +1,12 @@
 ﻿
 namespace SchoolProject
 {
-    public class LoadTestData
+    public interface ILoadTestData 
+    {
+        void Load(School school); //TBI
+        //void Load(string path); to read .txt, .csv
+    }
+    public class LoadTestData : ILoadTestData
     {
         public void Load(School school)
         {
@@ -13,7 +18,7 @@ namespace SchoolProject
                 CourseId = new Guid("39836a54-09ac-438f-bdd3-3e5cb0f207eb"),
                 CourseName = "Dev Foundamentals",
                 Credits = 3,
-                Schedule = "Mon, Wed, Fri 10:00-11:00",
+                Schedule = "MTW 10-11:30AM",
                 Description = "Introduction to OOP.",
                 Status = "Open",
                 ApprovalScore = 90.5m,
@@ -33,7 +38,6 @@ namespace SchoolProject
                 EnrollmentDate = new DateTime(2022, 9, 1),
                 Major = "Computer Science",
                 GPA = 3.85,
-                
                 School = school
             };
 

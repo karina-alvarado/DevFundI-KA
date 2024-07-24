@@ -476,11 +476,11 @@
             {
                 foreach (var student in course.Students)
                 {
-                    if (listApproved && IsStudentApproved(student))
+                    if (listApproved && IsStudentApproved(student, course.ApprovalScore))
                     {
                         Console.WriteLine($"Approved Student: {student.FirstName} {student.LastName}, Score: {student.Grade.Score}");
                     }
-                    else if (listFailed && !IsStudentApproved(student))
+                    else if (listFailed && !IsStudentApproved(student, course.ApprovalScore))
                     {
                         Console.WriteLine($"Failed Student: {student.FirstName} {student.LastName}, Score: {student.Grade.Score}");
                     }
@@ -496,10 +496,9 @@
             }
         }
 
-        private bool IsStudentApproved(Student student)
+        private bool IsStudentApproved(Student student, decimal approvalScore)
         {
-            const int approvalThreshold = 60;
-            return student.Grade.Score >= approvalThreshold;
+            return student.Grade.Score >= approvalScore;
         }
     }
 }
