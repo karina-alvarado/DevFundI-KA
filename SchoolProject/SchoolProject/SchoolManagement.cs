@@ -4,7 +4,10 @@
     {
         public School School { get; set; }
         public SchoolManagement() {
+          
             School = new School();
+            LoadTestData loadTestData = new LoadTestData();
+            loadTestData.Load(School);
         }
 
         public void ManageStudents()
@@ -102,6 +105,7 @@
 
             Console.WriteLine(student);
         }
+
         public void ManageTeacher()
         {
             Console.WriteLine("1. Add Teacher");
@@ -122,6 +126,7 @@
                     break;
             }
         }
+
         private void AddTeacher()
         {
             Console.Write("First Name: ");
@@ -159,6 +164,7 @@
             School.AddTeacher(teacher);
             Console.WriteLine("Teacher added successfully.");
         }
+
         private void ViewTeacherInformation()
         {
             Console.Write("Teacher ID: ");
@@ -171,8 +177,16 @@
                 return;
             }
 
-            Console.WriteLine(teacher);
+            Console.WriteLine($"Name: {teacher.FirstName} {teacher.LastName}");
+            Console.WriteLine($"Date of Birth: {teacher.DateOfBirth.ToShortDateString()}");
+            Console.WriteLine($"Address: {teacher.Address}");
+            Console.WriteLine($"Phone Number: {teacher.PhoneNumber}");
+            Console.WriteLine($"Hire Date: {teacher.HireDate.ToShortDateString()}");
+            Console.WriteLine($"Department: {teacher.Department}");
+            Console.WriteLine($"Specialization: {teacher.Specialization}");
+            Console.WriteLine($"Salary: {teacher.Salary}");
         }
+
         public void ManageCourse()
         {
             Console.WriteLine("1. Create Course");
@@ -201,48 +215,291 @@
                     break;
             }
         }
-        private void ViewCourseInformation()
-        {
-            throw new NotImplementedException();
-        }
 
-        private void AssignTeacherToCourse()
+        private void CreateCourse()
         {
-            throw new NotImplementedException();
+            Console.WriteLine("Enter course details:");
+
+            Course newCourse = new Course();
+
+            Console.Write("Course Name: ");
+            newCourse.CourseName = Console.ReadLine();
+
+            Console.Write("Credits: ");
+            if (int.TryParse(Console.ReadLine(), out int credits))
+            {
+                newCourse.Credits = credits;
+            }
+            else
+            {
+                Console.WriteLine("Invalid credits format. Course creation cancelled.");
+                return;
+            }
+            Console.Write("Schedule: ");
+            newCourse.Schedule = Console.ReadLine();
+            Console.Write("Description: ");
+            newCourse.Description = Console.ReadLine();
+            Console.Write("Status: ");
+            newCourse.Status = Console.ReadLine();
+            Console.Write("Approval Score: ");
+            if (decimal.TryParse(Console.ReadLine(), out decimal score))
+            {
+                newCourse.ApprovalScore = score;
+            }
+            else
+            {
+                Console.WriteLine("Invalid score format. Course creation cancelled.");
+                return;
+            }
+            Console.Write("MinGPA: ");
+            if (double.TryParse(Console.ReadLine(), out double minGPA))
+            {
+                newCourse.MinGPA = minGPA;
+            }
+            else
+            {
+                Console.WriteLine("Invalid MinGPA format. Course creation cancelled.");
+                return;
+            }
+
+
+            School.Courses.Add(newCourse);
+
+            Console.WriteLine($"Course {newCourse.CourseName} with ID {newCourse.CourseId} created successfully.");
         }
 
         private void EnrollStudentInCourse()
         {
-            throw new NotImplementedException();
+            Console.Write("Enter student's ID (select from available students): ");
+            if (int.TryParse(Console.ReadLine(), out int studentId))
+            {
+                Student student = School.FindStudent(studentId);
+                if (student != null)
+                {
+                    Console.Write("Enter course ID (select from available courses): ");
+                    if (Guid.TryParse(Console.ReadLine(), out Guid courseId))
+                    {
+                        Course course = School.FindCourse(courseId);
+                        if (course != null)
+                        {
+                            course.EnrollStudent(student);
+                            Console.WriteLine($"Student {student.FirstName} {student.LastName} enrolled to course {course.CourseName} successfully.");
+                        }
+                        else
+                        {
+                            Console.WriteLine($"Course with Id:{courseId} not found. Enrollment cancelled.");
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("Invalid course ID format. Enrollment cancelled.");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine($"Student with Id: {studentId} not found. Enrollment cancelled.");
+                }
+            }
+            else
+            {
+                Console.WriteLine("Invalid student ID format. Enrollment cancelled.");
+            }
         }
 
-        private void CreateCourse()
+        private void AssignTeacherToCourse()
         {
-            Console.Write("Course Name: ");
-            string courseName = Console.ReadLine();
-            Console.Write("Credits: ");
-            int credits = int.Parse(Console.ReadLine());
-            Console.Write("Schedule: ");
-            string schedule = Console.ReadLine();
-            Console.Write("Description: ");
-            string description = Console.ReadLine();
-            Console.Write("Approval Score: ");
-            decimal approvalScore = decimal.Parse(Console.ReadLine());
-            Console.Write("Minimum GPA: ");
-            double minGPA = double.Parse(Console.ReadLine());
-            Course course = new Course
-            {
-                CourseId = Guid.NewGuid(),
-                CourseName = courseName,
-                Credits = credits,
-                Schedule = schedule,
-                Description = description,
-                ApprovalScore = approvalScore,
-                MinGPA = minGPA
-            };
+            Console.Write("Enter teacher's ID (select from available teachers): ");
 
-            School.AddCourse(course);
-            Console.WriteLine("Course created successfully.");
+            if (int.TryParse(Console.ReadLine(), out int teacherId))
+            {
+                Teacher teacher = School.FindTeacher(teacherId);
+                if (teacher != null)
+                {
+                    Console.Write("Enter course ID (select from available courses): ");
+                    if (Guid.TryParse(Console.ReadLine(), out Guid courseId))
+                    {
+                        Course selectedCourse = School.FindCourse(courseId);
+                        if (selectedCourse != null)
+                        {
+                            selectedCourse.Instructor = teacher;
+                            Console.WriteLine("Teacher assigned to course successfully.");
+                        }
+                        else
+                        {
+                            Console.WriteLine($"Course with Id: {courseId} not found. Assignment cancelled.");
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("Invalid course ID format. Assignment cancelled.");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine($"Teacher with Id: {teacherId} not found. Assignment cancelled.");
+                }
+            }
+            else
+            {
+                Console.WriteLine("Invalid teacher ID format. Assignment cancelled.");
+            }
+        }
+
+        private void ViewCourseInformation()
+        {
+            Console.Write("Enter course ID: ");
+            if (Guid.TryParse(Console.ReadLine(), out Guid courseId))
+            {
+                Course course = School.FindCourse(courseId);
+                if (course != null)
+                {
+                    Console.WriteLine(course);
+                }
+                else
+                {
+                    Console.WriteLine($"Course with Id:{courseId} not found.");
+                }
+            }
+            else
+            {
+                Console.WriteLine("Invalid course ID format.");
+            }
+        }
+
+        public void ManageGrades() 
+        {
+            Console.WriteLine("Grades");
+            Console.WriteLine("1. Grade Course");
+            Console.WriteLine("2. List Course Grades");
+            Console.WriteLine("3. List Approved Students");
+            Console.WriteLine("4. List Failed Students");
+            Console.WriteLine("0. Back to Main Menu");
+            Console.Write("Select an option: ");
+
+            switch (Console.ReadLine())
+            {
+                case "1":
+                    GradeCourse();
+                    break;
+                case "2":
+                    ListCourseGrades();
+                    break;
+                case "3":
+                    ListApprovedStudents();
+                    break;
+                case "4":
+                    ListFailedStudents();
+                    break;
+                case "0":
+                    return;
+                default:
+                    Console.WriteLine("Invalid option, please try again.");
+                    break;
+            }
+
+            Console.WriteLine("Press any key to return to the main menu...");
+            Console.ReadKey();
+        }
+
+        private void GradeCourse()
+        {
+            Console.Write("Course Id: ");
+            Guid courseId = Guid.Parse(Console.ReadLine());
+            Course course = School.FindCourse(courseId);
+
+            if (course != null)
+            {
+                Console.Write("Student Id: ");
+                int studentId = int.Parse(Console.ReadLine());
+                Student student = School.FindStudent(studentId);
+
+                if (student != null)
+                {
+                    Console.Write("Score: ");
+                    decimal score = decimal.Parse(Console.ReadLine());
+
+                    Grade grade = new Grade
+                    {
+                        GradeId = Guid.NewGuid(),
+                        Course = course,
+                        Student = student,
+                        Score = score
+                    };
+
+                    student.Grade = grade;
+
+                    Console.WriteLine("Grade assigned successfully!");
+                }
+                else
+                {
+                    Console.WriteLine($"Student with Id: {studentId} not found.");
+                }
+            }
+            else
+            {
+                Console.WriteLine("Course not found.");
+            }
+        }
+
+        private void ListCourseGrades()
+        {
+            Console.Clear();
+            Console.WriteLine("List Course Grades");
+
+            Console.Write("Course Id: ");
+            Guid courseId = Guid.Parse(Console.ReadLine());
+            ListCourseGrades(courseId);
+        }
+
+        private void ListApprovedStudents()
+        {
+            Console.Clear();
+            Console.WriteLine("List Approved Students");
+            Console.Write("Course Id: ");
+            Guid courseId = Guid.Parse(Console.ReadLine());
+            ListCourseGrades(courseId, true);
+        }
+        private void ListFailedStudents()
+        {
+            Console.Clear();
+            Console.WriteLine("List Failed Students");
+            Console.Write("Course Id: ");
+            Guid courseId = Guid.Parse(Console.ReadLine());
+            ListCourseGrades(courseId, false, true);
+        }
+
+        private void ListCourseGrades(Guid courseId, bool listApproved = false, bool listFailed = false)
+        {
+            Course course = School.FindCourse(courseId);
+
+            if (course != null)
+            {
+                foreach (var student in course.Students)
+                {
+                    if (listApproved && IsStudentApproved(student))
+                    {
+                        Console.WriteLine($"Approved Student: {student.FirstName} {student.LastName}, Score: {student.Grade.Score}");
+                    }
+                    else if (listFailed && !IsStudentApproved(student))
+                    {
+                        Console.WriteLine($"Failed Student: {student.FirstName} {student.LastName}, Score: {student.Grade.Score}");
+                    }
+                    else if (!listFailed && !listApproved)
+                    {
+                        Console.WriteLine($"Student: {student.FirstName} {student.LastName}, Score: {student.Grade.Score}");
+                    }
+                }
+            }
+            else
+            {
+                Console.WriteLine("Course not found.");
+            }
+        }
+
+        private bool IsStudentApproved(Student student)
+        {
+            const int approvalThreshold = 60;
+            return student.Grade.Score >= approvalThreshold;
         }
     }
- }
+}

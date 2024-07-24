@@ -1,5 +1,4 @@
-﻿
-using SchoolProject;
+﻿using SchoolProject;
 
 public class Program
 {
@@ -8,6 +7,8 @@ public class Program
     public static void Main(string[] args)
     {
         bool exit = false;
+
+        //LoadData() TODO
 
         while (!exit)
         {
@@ -31,17 +32,16 @@ public class Program
                 case "3":
                     Management.ManageCourse();
                     break;
+                case "4":
+                    Management.ManageGrades();
+                    break;
+                case "5":
+                    exit = true;
+                    break;
                 default:
                     Console.WriteLine("Invalid option. Please try again.");
                     break;
             }
         }
     }
-
-    private static void ManageGrades()
-    {
-        throw new NotImplementedException();
-    }
-
 }
-

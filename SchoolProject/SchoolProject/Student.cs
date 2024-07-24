@@ -7,6 +7,7 @@
         public double GPA { get; set; }
         public int CreditsEarned { get; set; }
         public School School { get; set; }
+        public Grade Grade { get; set; }
 
         public Student() { }
 
@@ -20,4 +21,3 @@
         }
     }   
 }
-
